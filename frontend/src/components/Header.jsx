@@ -11,7 +11,10 @@ export default function Header() {
 
   return (
     <header className="w-full bg-white shadow-sm border-b py-3 px-6 flex justify-between items-center">
-      <h1 className="text-xl font-bold text-yellow-500 cursor-pointer" onClick={() => navigate("/")}>
+      <h1
+        className="text-xl font-bold text-yellow-500 cursor-pointer"
+        onClick={() => navigate("/")}
+      >
         ConectaPro
       </h1>
 
@@ -28,8 +31,12 @@ export default function Header() {
         {logado && (
           <>
             <Link to="/dashboard">Dashboard</Link>
+            <Link to="/mensagens">Mensagens</Link>
             <Link to="/perfil">Meu Perfil</Link>
-            <button onClick={logout} className="text-red-500 hover:underline">
+            <button
+              onClick={logout}
+              className="text-red-500 hover:underline"
+            >
               Sair
             </button>
           </>

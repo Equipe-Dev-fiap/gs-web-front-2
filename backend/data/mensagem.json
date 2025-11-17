@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "remetente": "lucas@gmail.com",
+    "destinatario": "rafa@gmail.com",
+    "texto": "opa ",
+    "data": "2025-11-17T22:42:06.500Z"
+  },
+  {
+    "id": 2,
+    "remetente": "lucas@gmail.com",
+    "destinatario": "rafa@gmail.com",
+    "texto": "blzz",
+    "data": "2025-11-17T22:42:11.062Z"
+  }
+]

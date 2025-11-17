@@ -1,7 +1,72 @@
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const API_URL = "http://localhost:5001";
+
 export default function CardProfissional({ item, onOpen }) {
   const habilidades = item.habilidadesTecnicas || [];
   const mostrar = habilidades.slice(0, 3);
   const extras = habilidades.length - 3;
+
+  // dados do usuário logado
+  const emailLogado = localStorage.getItem("usuarioEmail");
+  const nomeLogado = localStorage.getItem("usuarioNome");
+  const isMeuPerfil =
+    emailLogado &&
+    item.email &&
+    item.email.toLowerCase() === emailLogado.toLowerCase();
+
+  // estado local para refletir as recomendações
+  const [recomendadoPor, setRecomendadoPor] = useState(
+    item.recomendadoPor || []
+  );
+
+  const navigate = useNavigate();
+
+  async function handleRecomendar(e) {
+    // não deixar o clique do botão abrir o modal
+    e.stopPropagation();
+
+    if (!emailLogado) {
+      alert("Você precisa estar logado para recomendar um perfil.");
+      return;
+    }
+
+    try {
+      const resp = await axios.post(
+        `${API_URL}/profissionais/${item.id}/recomendar`,
+        {
+          recomendadorEmail: emailLogado,
+          recomendadorNome: nomeLogado,
+        }
+      );
+
+      setRecomendadoPor(resp.data.recomendadoPor || []);
+      alert("Perfil recomendado com sucesso!");
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao recomendar perfil.");
+    }
+  }
+
+  function handleIrParaChat(e) {
+    // não deixar abrir o modal
+    e.stopPropagation();
+
+    if (!emailLogado) {
+      alert("Você precisa estar logado para enviar mensagens.");
+      return;
+    }
+
+    if (!item.email) {
+      alert("Esse perfil não possui email cadastrado.");
+      return;
+    }
+
+    // vai para /chat/:emailDoPerfil
+    navigate(`/chat/${encodeURIComponent(item.email)}`);
+  }
 
   return (
     <div
@@ -60,6 +125,33 @@ export default function CardProfissional({ item, onOpen }) {
               +{extras} mais
             </span>
           )}
+        </div>
+      )}
+
+      {/* RECOMENDADO POR */}
+      {Array.isArray(recomendadoPor) && recomendadoPor.length > 0 && (
+        <p className="mt-3 text-xs text-gray-500">
+          Recomendado por:{" "}
+          {recomendadoPor.map((r) => r.nome || r.email).join(", ")}
+        </p>
+      )}
+
+      {/* BOTÕES: Recomendar + Enviar mensagem (não no próprio perfil) */}
+      {!isMeuPerfil && emailLogado && (
+        <div className="mt-4 flex gap-2">
+          <button
+            onClick={handleRecomendar}
+            className="text-xs bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-3 py-1 rounded-full font-semibold shadow-sm"
+          >
+            Recomendar perfil
+          </button>
+
+          <button
+            onClick={handleIrParaChat}
+            className="text-xs bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-full font-semibold"
+          >
+            Enviar mensagem
+          </button>
         </div>
       )}
 

@@ -20,6 +20,17 @@ export default function ModalPerfil({ item, onClose }) {
               {item.localizacao || "Localização não informada"} •{" "}
               {item.area || "Área não informada"}
             </p>
+
+            {/* RECOMENDADO POR (somente exibição) */}
+            {Array.isArray(item.recomendadoPor) &&
+              item.recomendadoPor.length > 0 && (
+                <p className="text-xs text-yellow-700 mt-1">
+                  Recomendado por:{" "}
+                  {item.recomendadoPor
+                    .map((r) => r.nome || r.email)
+                    .join(", ")}
+                </p>
+              )}
           </div>
           <button
             onClick={onClose}
@@ -59,7 +70,9 @@ export default function ModalPerfil({ item, onClose }) {
                   </span>
                 ))
               ) : (
-                <p className="text-gray-500 text-sm">Nenhuma habilidade técnica.</p>
+                <p className="text-gray-500 text-sm">
+                  Nenhuma habilidade técnica.
+                </p>
               )}
             </div>
           </div>
@@ -106,7 +119,10 @@ export default function ModalPerfil({ item, onClose }) {
           <div className="mt-6">
             <h4 className="font-semibold mb-2">Formação</h4>
             {item.formacao.map((f, i) => (
-              <div key={i} className="border-l-4 border-yellow-400 pl-3 mb-2">
+              <div
+                key={i}
+                className="border-l-4 border-yellow-400 pl-3 mb-2"
+              >
                 <p className="font-semibold">{f.curso}</p>
                 <p className="text-sm text-gray-600">
                   {f.instituicao} — {f.ano}
@@ -121,7 +137,10 @@ export default function ModalPerfil({ item, onClose }) {
           <div className="mt-6">
             <h4 className="font-semibold mb-2">Projetos</h4>
             {item.projetos.map((p, i) => (
-              <div key={i} className="border p-3 rounded mb-2 bg-white shadow-sm">
+              <div
+                key={i}
+                className="border p-3 rounded mb-2 bg-white shadow-sm"
+              >
                 <p className="font-semibold">{p.titulo}</p>
                 {p.link && (
                   <a
