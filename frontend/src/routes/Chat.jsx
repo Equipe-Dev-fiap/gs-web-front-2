@@ -5,7 +5,7 @@ import axios from "axios";
 const API_URL = "http://localhost:5001";
 
 export default function Chat() {
-  const { email } = useParams(); // email da pessoa com quem estou conversando
+  const { email } = useParams();
   const meuEmail = localStorage.getItem("usuarioEmail");
   const meuNome = localStorage.getItem("usuarioNome");
 
@@ -53,21 +53,22 @@ export default function Chat() {
 
   useEffect(() => {
     carregarMensagens();
-    // opcional: recarregar a cada X segundos
-    // const id = setInterval(carregarMensagens, 5000);
-    // return () => clearInterval(id);
   }, [email, meuEmail]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100 p-6">
+    <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900 p-6 text-gray-900 dark:text-gray-100">
       <h1 className="text-2xl font-bold mb-4">
         Conversa com <span className="text-yellow-500">{email}</span>
       </h1>
 
       {/* mensagens */}
-      <div className="flex-1 bg-white p-4 rounded-xl shadow overflow-y-auto mb-4">
+      <div className="
+        flex-1 bg-white dark:bg-gray-800 
+        p-4 rounded-xl shadow overflow-y-auto mb-4
+        border border-gray-200 dark:border-gray-700
+      ">
         {mensagens.length === 0 && (
-          <p className="text-sm text-gray-500 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
             Nenhuma mensagem ainda. Comece a conversa!
           </p>
         )}
@@ -77,12 +78,12 @@ export default function Chat() {
             key={m.id}
             className={`p-3 my-2 rounded-xl max-w-xs ${
               m.remetente === meuEmail
-                ? "bg-yellow-300 ml-auto text-right"
-                : "bg-gray-200"
+                ? "bg-yellow-300 text-right ml-auto"
+                : "bg-gray-200 dark:bg-gray-700"
             }`}
           >
             <p className="text-sm">{m.texto}</p>
-            <p className="text-[10px] text-gray-600 mt-1">
+            <p className="text-[10px] text-gray-600 dark:text-gray-300 mt-1">
               {new Date(m.data || m.dataEnvio || "").toLocaleString("pt-BR")}
             </p>
           </div>
@@ -92,14 +93,25 @@ export default function Chat() {
       {/* enviar */}
       <div className="flex gap-2">
         <input
-          className="flex-1 border p-3 rounded-lg"
+          className="
+            flex-1 border border-gray-300 dark:border-gray-600 
+            bg-white dark:bg-gray-800 
+            text-gray-900 dark:text-gray-100 
+            p-3 rounded-lg 
+            placeholder-gray-400 dark:placeholder-gray-300
+          "
           placeholder="Digite sua mensagem..."
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
         />
+
         <button
           onClick={enviarMensagem}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg"
+          className="
+            bg-yellow-500 hover:bg-yellow-600 
+            text-white px-6 py-3 rounded-lg 
+            transition
+          "
         >
           Enviar
         </button>

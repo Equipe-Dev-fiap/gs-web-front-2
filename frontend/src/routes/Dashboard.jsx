@@ -35,7 +35,8 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="max-w-6xl mx-auto py-10 px-6">
+    <div className="max-w-6xl mx-auto py-10 px-6 text-gray-900 dark:text-white-100">
+
       <h1 className="text-3xl font-bold mb-4">
         Profissionais <span className="text-yellow-400">ConectaPro</span>
       </h1>
@@ -58,8 +59,10 @@ export default function Dashboard() {
       )}
 
       {!lista.length && (
-        <p className="text-center text-gray-500 mt-12">
-          Nenhum perfil ainda. Acesse <a href="/perfil" className="text-yellow-500 underline">Meu Perfil</a> para criar o seu.
+        <p className="text-center text-gray-500 dark:text-gray-400 mt-12">
+          Nenhum perfil ainda. Acesse{" "}
+          <a href="/perfil" className="text-yellow-500 underline">Meu Perfil</a>{" "}
+          para criar o seu.
         </p>
       )}
     </div>

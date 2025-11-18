@@ -12,10 +12,7 @@ export default function Register() {
   const [erro, setErro] = useState("");
 
   function validarEmail(email) {
-    // Remove acentos e padroniza
     email = email.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-    // Regex de email válido
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email) ? email : null;
   }
@@ -25,17 +22,11 @@ export default function Register() {
     setErro("");
 
     const emailValido = validarEmail(email);
-    if (!emailValido) {
-      return setErro("❌ Digite um email válido (sem acentos)");
-    }
+    if (!emailValido) return setErro("❌ Digite um email válido (sem acentos)");
 
-    if (senha.length < 6) {
-      return setErro("❌ A senha deve ter no mínimo 6 caracteres");
-    }
+    if (senha.length < 6) return setErro("❌ A senha deve ter no mínimo 6 caracteres");
 
-    if (senha !== senha2) {
-      return setErro("❌ As senhas não coincidem");
-    }
+    if (senha !== senha2) return setErro("❌ As senhas não coincidem");
 
     try {
       await axios.post(`${API_URL}/register`, {
@@ -53,21 +44,42 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="bg-white p-8 rounded-xl max-w-md w-full shadow-lg">
-
-        <h2 className="text-2xl font-bold text-center mb-6">
+    <div className="
+      min-h-screen flex items-center justify-center 
+      bg-gray-100 dark:bg-gray-900 
+      px-4
+    ">
+      <div className="
+        bg-white dark:bg-gray-800
+        p-8 rounded-xl max-w-md w-full 
+        shadow-lg border border-gray-200 dark:border-gray-700
+      ">
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">
           Criar <span className="text-yellow-400">Conta</span>
         </h2>
 
-        {erro && <p className="bg-red-100 border border-red-300 text-red-700 p-2 rounded mb-4">{erro}</p>}
+        {erro && (
+          <p className="
+            bg-red-100 dark:bg-red-900 
+            border border-red-300 dark:border-red-700 
+            text-red-700 dark:text-red-300 
+            p-2 rounded mb-4
+          ">
+            {erro}
+          </p>
+        )}
 
         <form onSubmit={registrar} className="space-y-4">
 
           <input
             type="text"
             placeholder="Nome completo"
-            className="border p-3 rounded w-full"
+            className="
+              border p-3 rounded w-full 
+              bg-white dark:bg-gray-700
+              text-gray-900 dark:text-gray-100
+              border-gray-300 dark:border-gray-600
+            "
             value={nome}
             onChange={(e) => setNome(e.target.value)}
             required
@@ -76,7 +88,12 @@ export default function Register() {
           <input
             type="email"
             placeholder="Email (sem acentos)"
-            className="border p-3 rounded w-full"
+            className="
+              border p-3 rounded w-full
+              bg-white dark:bg-gray-700
+              text-gray-900 dark:text-gray-100
+              border-gray-300 dark:border-gray-600
+            "
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -86,14 +103,22 @@ export default function Register() {
             <input
               type={mostrarSenha ? "text" : "password"}
               placeholder="Senha (mín. 6 caracteres)"
-              className="border p-3 rounded w-full pr-12"
+              className="
+                border p-3 rounded w-full pr-12
+                bg-white dark:bg-gray-700
+                text-gray-900 dark:text-gray-100
+                border-gray-300 dark:border-gray-600
+              "
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               required
             />
             <span
               onClick={() => setMostrarSenha(!mostrarSenha)}
-              className="absolute right-3 top-3 cursor-pointer text-gray-500"
+              className="
+                absolute right-3 top-3 cursor-pointer 
+                text-gray-600 dark:text-gray-300
+              "
             >
               {mostrarSenha ? "👁" : "👁‍🗨"}
             </span>
@@ -102,7 +127,12 @@ export default function Register() {
           <input
             type={mostrarSenha ? "text" : "password"}
             placeholder="Confirmar senha"
-            className="border p-3 rounded w-full"
+            className="
+              border p-3 rounded w-full
+              bg-white dark:bg-gray-700
+              text-gray-900 dark:text-gray-100
+              border-gray-300 dark:border-gray-600
+            "
             value={senha2}
             onChange={(e) => setSenha2(e.target.value)}
             required
@@ -110,14 +140,23 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 py-3 rounded font-semibold transition"
+            className="
+              w-full bg-yellow-400 hover:bg-yellow-500 
+              text-gray-900 py-3 rounded font-semibold transition
+            "
           >
             Criar Conta
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Já tem conta? <a href="/login" className="text-yellow-500 hover:underline">Entrar</a>
+        <p className="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
+          Já tem conta?{" "}
+          <a
+            href="/login"
+            className="text-yellow-500 hover:underline"
+          >
+            Entrar
+          </a>
         </p>
 
       </div>

@@ -20,40 +20,67 @@ export default function Perfil() {
     carregar();
   }, [email]);
 
-  if (!perfil) return <p className="text-center mt-16">Carregando...</p>;
+  if (!perfil)
+    return (
+      <p className="text-center mt-16 text-gray-700 dark:text-gray-300">
+        Carregando...
+      </p>
+    );
 
   return (
-    <div className="max-w-5xl mx-auto py-10 px-6">
+    <div className="max-w-5xl mx-auto py-10 px-6 
+      bg-gray-100 dark:bg-gray-900
+      text-gray-900 dark:text-gray-100"
+    >
       {/* Header */}
       <div className="flex flex-wrap items-start gap-6">
         <img
           src={perfil.foto || "/user-placeholder.png"}
           alt="Foto de perfil"
-          className="w-36 h-36 rounded-lg object-cover border shadow-md"
+          className="
+            w-36 h-36 rounded-lg object-cover border shadow-md
+            border-gray-300 dark:border-gray-600
+          "
         />
+
         <div className="flex-1 min-w-[250px]">
           <h1 className="text-3xl font-bold">{perfil.nome}</h1>
-          <p className="text-gray-700 text-lg">{perfil.cargo || "Cargo não informado"}</p>
-          <p className="text-gray-500">{perfil.localizacao || "Localização não informada"}</p>
-          <p className="text-sm text-gray-400 mt-1">
-            Área: <span className="font-medium text-gray-700">{perfil.area || "—"}</span>
+
+          <p className="text-gray-700 dark:text-gray-300 text-lg">
+            {perfil.cargo || "Cargo não informado"}
+          </p>
+
+          <p className="text-gray-500 dark:text-gray-400">
+            {perfil.localizacao || "Localização não informada"}
+          </p>
+
+          <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+            Área:{" "}
+            <span className="font-medium text-gray-700 dark:text-gray-200">
+              {perfil.area || "—"}
+            </span>
           </p>
 
           <Link
             to="/editar-perfil"
-            className="inline-block mt-5 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-5 py-2 rounded-lg shadow"
+            className="
+              inline-block mt-5
+              bg-yellow-400 hover:bg-yellow-500 
+              text-gray-900 font-semibold 
+              px-5 py-2 rounded-lg shadow
+            "
           >
             ✏️ Editar Perfil
           </Link>
         </div>
       </div>
 
-      <hr className="my-8 border-gray-300" />
+      <hr className="my-8 border-gray-300 dark:border-gray-700" />
 
       {/* Resumo */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2">Sobre mim</h2>
-        <p className="text-gray-700 leading-relaxed">
+        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
           {perfil.resumo || "Nenhuma descrição adicionada ainda."}
         </p>
       </section>
@@ -63,26 +90,44 @@ export default function Perfil() {
         <div>
           <h3 className="font-semibold text-lg mb-1">Habilidades Técnicas</h3>
           <div className="flex flex-wrap gap-2">
-            {(perfil.habilidadesTecnicas || []).length
-              ? perfil.habilidadesTecnicas.map((h, i) => (
-                  <span key={i} className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">
-                    {h}
-                  </span>
-                ))
-              : <p className="text-gray-500">—</p>}
+            {(perfil.habilidadesTecnicas || []).length ? (
+              perfil.habilidadesTecnicas.map((h, i) => (
+                <span
+                  key={i}
+                  className="
+                    bg-yellow-100 text-yellow-800 
+                    dark:bg-yellow-400 dark:text-gray-900
+                    px-2 py-1 rounded text-sm
+                  "
+                >
+                  {h}
+                </span>
+              ))
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400">—</p>
+            )}
           </div>
         </div>
 
         <div>
           <h3 className="font-semibold text-lg mb-1">Soft Skills</h3>
           <div className="flex flex-wrap gap-2">
-            {(perfil.softSkills || []).length
-              ? perfil.softSkills.map((s, i) => (
-                  <span key={i} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
-                    {s}
-                  </span>
-                ))
-              : <p className="text-gray-500">—</p>}
+            {(perfil.softSkills || []).length ? (
+              perfil.softSkills.map((s, i) => (
+                <span
+                  key={i}
+                  className="
+                    bg-gray-100 text-gray-700 
+                    dark:bg-gray-700 dark:text-gray-200 
+                    px-2 py-1 rounded text-sm
+                  "
+                >
+                  {s}
+                </span>
+              ))
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400">—</p>
+            )}
           </div>
         </div>
       </section>
@@ -92,14 +137,25 @@ export default function Perfil() {
         <h3 className="font-semibold text-lg mb-3">Experiências</h3>
         {(perfil.experiencias || []).length ? (
           perfil.experiencias.map((exp, i) => (
-            <div key={i} className="border p-4 rounded mb-3 shadow-sm bg-gray-50">
+            <div
+              key={i}
+              className="
+                border p-4 rounded mb-3 shadow-sm 
+                bg-gray-50 dark:bg-gray-800
+                border-gray-300 dark:border-gray-700
+              "
+            >
               <p className="font-semibold">{exp.cargo} — {exp.empresa}</p>
-              <small className="text-gray-500">{exp.inicio} até {exp.fim || "Atual"}</small>
-              <p className="text-gray-700 mt-1">{exp.descricao}</p>
+              <small className="text-gray-500 dark:text-gray-400">
+                {exp.inicio} até {exp.fim || "Atual"}
+              </small>
+              <p className="text-gray-700 dark:text-gray-300 mt-1">{exp.descricao}</p>
             </div>
           ))
         ) : (
-          <p className="text-gray-500">Nenhuma experiência adicionada.</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            Nenhuma experiência adicionada.
+          </p>
         )}
       </section>
 
@@ -108,13 +164,23 @@ export default function Perfil() {
         <h3 className="font-semibold text-lg mb-3">Formação</h3>
         {(perfil.formacao || []).length ? (
           perfil.formacao.map((f, i) => (
-            <div key={i} className="border-l-4 border-yellow-400 pl-3 mb-2">
+            <div
+              key={i}
+              className="
+                border-l-4 border-yellow-400 
+                pl-3 mb-2
+              "
+            >
               <p className="font-semibold">{f.curso}</p>
-              <p className="text-gray-700 text-sm">{f.instituicao} — {f.ano}</p>
+              <p className="text-gray-700 dark:text-gray-300 text-sm">
+                {f.instituicao} — {f.ano}
+              </p>
             </div>
           ))
         ) : (
-          <p className="text-gray-500">Nenhuma formação adicionada.</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            Nenhuma formação adicionada.
+          </p>
         )}
       </section>
 
@@ -123,23 +189,32 @@ export default function Perfil() {
         <h3 className="font-semibold text-lg mb-3">Projetos</h3>
         {(perfil.projetos || []).length ? (
           perfil.projetos.map((p, i) => (
-            <div key={i} className="border p-4 rounded mb-3 bg-white shadow-sm">
+            <div
+              key={i}
+              className="
+                border p-4 rounded mb-3 shadow-sm 
+                bg-white dark:bg-gray-800
+                border-gray-300 dark:border-gray-700
+              "
+            >
               <p className="font-semibold">{p.titulo}</p>
               {p.link && (
                 <a
                   href={p.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 underline text-sm"
+                  className="text-blue-600 dark:text-blue-400 underline text-sm"
                 >
                   {p.link}
                 </a>
               )}
-              <p className="text-gray-700 mt-1">{p.descricao}</p>
+              <p className="text-gray-700 dark:text-gray-300 mt-1">
+                {p.descricao}
+              </p>
             </div>
           ))
         ) : (
-          <p className="text-gray-500">Nenhum projeto adicionado.</p>
+          <p className="text-gray-500 dark:text-gray-400">Nenhum projeto adicionado.</p>
         )}
       </section>
 
@@ -147,11 +222,13 @@ export default function Perfil() {
       <section className="mb-8">
         <h3 className="font-semibold text-lg mb-3">Certificações</h3>
         {(perfil.certificacoes || []).length ? (
-          <ul className="list-disc list-inside text-gray-700">
+          <ul className="list-disc list-inside text-gray-700 dark:text-gray-300">
             {perfil.certificacoes.map((c, i) => <li key={i}>{c}</li>)}
           </ul>
         ) : (
-          <p className="text-gray-500">Nenhuma certificação adicionada.</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            Nenhuma certificação adicionada.
+          </p>
         )}
       </section>
 
@@ -159,13 +236,15 @@ export default function Perfil() {
       <section className="mb-8">
         <h3 className="font-semibold text-lg mb-3">Idiomas</h3>
         {(perfil.idiomas || []).length ? (
-          <ul className="list-disc list-inside text-gray-700">
+          <ul className="list-disc list-inside text-gray-700 dark:text-gray-300">
             {perfil.idiomas.map((idioma, i) => (
               <li key={i}>{idioma.idioma} — {idioma.nivel}</li>
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500">Nenhum idioma informado.</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            Nenhum idioma informado.
+          </p>
         )}
       </section>
 
@@ -175,13 +254,22 @@ export default function Perfil() {
         {(perfil.areaInteresses || []).length ? (
           <div className="flex flex-wrap gap-2">
             {perfil.areaInteresses.map((a, i) => (
-              <span key={i} className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded text-sm">
+              <span
+                key={i}
+                className="
+                  bg-yellow-100 text-yellow-800 
+                  dark:bg-yellow-400 dark:text-gray-900
+                  px-3 py-1 rounded text-sm
+                "
+              >
                 {a}
               </span>
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">Nenhuma área de interesse adicionada.</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            Nenhuma área de interesse adicionada.
+          </p>
         )}
       </section>
     </div>

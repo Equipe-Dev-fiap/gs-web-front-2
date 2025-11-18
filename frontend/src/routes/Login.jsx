@@ -25,7 +25,6 @@ export default function Login() {
         return;
       }
 
-      // Salvar sessão
       localStorage.setItem("usuarioNome", usuario.nome);
       localStorage.setItem("usuarioEmail", usuario.email);
 
@@ -39,42 +38,60 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
-      <div className="bg-white p-10 rounded-xl w-full max-w-md text-center shadow-sm border border-gray-200">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-6">
+      <div className="bg-white dark:bg-gray-800 p-10 rounded-xl w-full max-w-md text-center shadow-sm border border-gray-200 dark:border-gray-700">
 
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+        <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
           Entrar no <span className="text-yellow-400">ConectaPro</span>
         </h2>
 
         <form onSubmit={handleLogin} className="space-y-6 text-left">
 
           <div>
-            <label className="block text-sm text-gray-700 mb-1">Email</label>
+            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Email</label>
             <input
               type="email"
               placeholder="seu.email@exemplo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border border-gray-300 p-3 rounded-lg focus:border-yellow-400 focus:ring-yellow-400"
+              className="
+                w-full border border-gray-300 dark:border-gray-600
+                bg-white dark:bg-gray-700
+                text-gray-900 dark:text-gray-100
+                p-3 rounded-lg
+                focus:border-yellow-400 focus:ring-yellow-400
+                placeholder-gray-400 dark:placeholder-gray-300
+              "
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-700 mb-1">Senha</label>
+            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Senha</label>
             <input
               type="password"
               placeholder="••••••••"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               required
-              className="w-full border border-gray-300 p-3 rounded-lg focus:border-yellow-400 focus:ring-yellow-400"
+              className="
+                w-full border border-gray-300 dark:border-gray-600
+                bg-white dark:bg-gray-700
+                text-gray-900 dark:text-gray-100
+                p-3 rounded-lg
+                focus:border-yellow-400 focus:ring-yellow-400
+                placeholder-gray-400 dark:placeholder-gray-300
+              "
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 text-lg py-3 rounded-lg font-semibold transition"
+            className="
+              w-full bg-yellow-400 hover:bg-yellow-500
+              text-gray-900 text-lg py-3 rounded-lg
+              font-semibold transition
+            "
           >
             Entrar
           </button>
@@ -82,15 +99,23 @@ export default function Login() {
 
         {mensagem && (
           <p
-            className="mt-4 text-sm text-center p-3 rounded-lg border bg-gray-50 border-gray-300 text-gray-700"
+            className="
+              mt-4 text-sm text-center p-3 rounded-lg
+              border bg-gray-50 dark:bg-gray-700
+              border-gray-300 dark:border-gray-600
+              text-gray-700 dark:text-gray-200
+            "
           >
             {mensagem}
           </p>
         )}
 
-        <p className="mt-6 text-sm text-gray-500">
+        <p className="mt-6 text-sm text-gray-500 dark:text-gray-400">
           Não tem conta?{" "}
-          <a href="/register" className="text-yellow-500 hover:text-yellow-600 font-semibold">
+          <a
+            href="/register"
+            className="text-yellow-500 hover:text-yellow-600 font-semibold"
+          >
             Criar Conta
           </a>
         </p>
