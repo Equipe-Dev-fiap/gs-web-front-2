@@ -1,16 +1,16 @@
 [
   {
     "id": 1,
-    "remetente": "lucas@gmail.com",
-    "destinatario": "rafa@gmail.com",
-    "texto": "opa ",
-    "data": "2025-11-17T22:42:06.500Z"
+    "remetente": "rafa@gmail.com",
+    "destinatario": "elisa.moura@site.com",
+    "texto": "oi",
+    "data": "2025-11-17T23:48:43.708Z"
   },
   {
     "id": 2,
-    "remetente": "lucas@gmail.com",
-    "destinatario": "rafa@gmail.com",
-    "texto": "blzz",
-    "data": "2025-11-17T22:42:11.062Z"
+    "remetente": "rafinhaacarmona@gmail.com",
+    "destinatario": "ana.silva@site.com",
+    "texto": "ola",
+    "data": "2025-11-18T00:35:51.325Z"
   }
 ]
