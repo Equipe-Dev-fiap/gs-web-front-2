@@ -179,7 +179,7 @@
     "id": 4,
     "email": "daniel.ferreira@site.com",
     "nome": "Daniel Ferreira",
-    "foto": "4.jpg",     
+    "foto": "4.jpg",
     "resumo": "Gerente de Projetos certificado (PMP), com experiência em projetos de infraestrutura e TI, utilizando Scrum e Kanban.",
     "cargo": "Gerente de Projetos Sênior",
     "area": "Gestão",
@@ -363,7 +363,8 @@
     ],
     "softSkills": [
       "Criatividade",
-      "Comunicação Clara"
+      "Comunicação Clara",
+      "Comunicação"
     ],
     "experiencias": [
       {
@@ -635,7 +636,7 @@
     "id": 12,
     "email": "luis.santos@site.com",
     "nome": "Luis Santos",
-    "foto": "12.jpg",    
+    "foto": "12.jpg",
     "resumo": "Engenheiro Mecânico com experiência em P&D, simulação CAE e otimização de produtos e processos.",
     "cargo": "Engenheiro de Produto",
     "area": "Engenharia",

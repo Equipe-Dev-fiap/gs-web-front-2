@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 
 export default function Header() {
   const navigate = useNavigate();
-  const logado = localStorage.getItem("usuarioEmail");
+  const logado = Boolean(localStorage.getItem("usuarioEmail"));
+
   
   // 1. Gerenciar o estado do tema no React
   const [isDarkMode, setIsDarkMode] = useState(false);

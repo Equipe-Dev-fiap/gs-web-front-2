@@ -125,7 +125,6 @@ export default function EditarPerfil() {
   };
 
   const removeAreaInteresse = (i) => delItem("areaInteresses", i);
-
   return (
     <div
       className="
@@ -154,7 +153,7 @@ export default function EditarPerfil() {
           <div>
             {perfil.foto ? (
               <img
-                src={`${API_URL}/${perfil.foto}`   }
+                src={perfil.foto}
                 alt="foto"
                 className="w-32 h-32 rounded-lg object-cover border shadow
                 border-gray-300 dark:border-gray-700"
@@ -244,7 +243,16 @@ export default function EditarPerfil() {
                     value={outroCargo}
                     onChange={(e) => setOutroCargo(e.target.value)}
                   />
-                  <button className="bg-green-500 hover:bg-green-600 text-white px-3 rounded">
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 rounded"
+                    onClick={() => {
+                      if (!outroCargo.trim()) return;
+                      setCargos([...cargos, outroCargo.trim()]);
+                      up("cargo", outroCargo.trim());
+                      setOutroCargo("");
+                      setMostrarOutroCargo(false);
+                    }}
+                  >
                     ➕
                   </button>
                 </div>
@@ -288,7 +296,16 @@ export default function EditarPerfil() {
                     value={outraArea}
                     onChange={(e) => setOutraArea(e.target.value)}
                   />
-                  <button className="bg-green-500 hover:bg-green-600 text-white px-3 rounded">
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 rounded"
+                    onClick={() => {
+                      if (!outraArea.trim()) return;
+                      setAreas([...areas, outraArea.trim()]);
+                      up("area", outraArea.trim());
+                      setOutraArea("");
+                      setMostrarOutraArea(false);
+                    }}
+                  >
                     ➕
                   </button>
                 </div>
@@ -363,7 +380,16 @@ export default function EditarPerfil() {
                 value={novaHab}
                 onChange={(e) => setNovaHab(e.target.value)}
               />
-              <button className="bg-yellow-400 px-3 rounded">+</button>
+              <button
+                className="bg-yellow-400 px-3 rounded"
+                onClick={() => {
+                  if (!novaHab.trim()) return;
+                  addItem("habilidadesTecnicas", novaHab.trim());
+                  setNovaHab("");
+                }}
+              >
+                +
+              </button>
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
@@ -412,7 +438,16 @@ export default function EditarPerfil() {
                 value={novaSoft}
                 onChange={(e) => setNovaSoft(e.target.value)}
               />
-              <button className="bg-yellow-400 px-3 rounded">+</button>
+              <button
+                className="bg-yellow-400 px-3 rounded"
+                onClick={() => {
+                  if (!novaSoft.trim()) return;
+                  addItem("softSkills", novaSoft.trim());
+                  setNovaSoft("");
+                }}
+              >
+                +
+              </button>
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
@@ -433,8 +468,7 @@ export default function EditarPerfil() {
           </div>
         </div>
       </section>
-
-      {/* EXPERIÊNCIAS */}
+       {/* EXPERIÊNCIAS */}
       <section
         className="
           border rounded-lg p-6 space-y-4
@@ -522,7 +556,20 @@ export default function EditarPerfil() {
           </div>
         ))}
 
-        <button className="bg-yellow-400 px-4 py-2 rounded">+ Adicionar</button>
+        <button
+          className="bg-yellow-400 px-4 py-2 rounded"
+          onClick={() =>
+            addItem("experiencias", {
+              empresa: "",
+              cargo: "",
+              inicio: "",
+              fim: "",
+              descricao: "",
+            })
+          }
+        >
+          + Adicionar
+        </button>
       </section>
 
       {/* FORMAÇÃO */}
@@ -580,11 +627,24 @@ export default function EditarPerfil() {
               onChange={(ev) => updateNested("formacao", i, "ano", ev.target.value)}
             />
 
-            <button className="text-red-500" onClick={() => delItem("formacao", i)}>Remover</button>
+            <button className="text-red-500" onClick={() => delItem("formacao", i)}>
+              Remover
+            </button>
           </div>
         ))}
 
-        <button className="bg-yellow-400 px-4 py-2 rounded">+ Adicionar</button>
+        <button
+          className="bg-yellow-400 px-4 py-2 rounded"
+          onClick={() =>
+            addItem("formacao", {
+              curso: "",
+              instituicao: "",
+              ano: "",
+            })
+          }
+        >
+          + Adicionar
+        </button>
       </section>
 
       {/* PROJETOS */}
@@ -642,11 +702,24 @@ export default function EditarPerfil() {
               onChange={(ev) => updateNested("projetos", i, "descricao", ev.target.value)}
             />
 
-            <button className="text-red-500" onClick={() => delItem("projetos", i)}>Remover</button>
+            <button className="text-red-500" onClick={() => delItem("projetos", i)}>
+              Remover
+            </button>
           </div>
         ))}
 
-        <button className="bg-yellow-400 px-4 py-2 rounded">+ Adicionar</button>
+        <button
+          className="bg-yellow-400 px-4 py-2 rounded"
+          onClick={() =>
+            addItem("projetos", {
+              titulo: "",
+              link: "",
+              descricao: "",
+            })
+          }
+        >
+          + Adicionar
+        </button>
       </section>
 
       {/* CERTIFICAÇÕES */}
@@ -671,7 +744,7 @@ export default function EditarPerfil() {
             value={novaCert}
             onChange={(e) => setNovaCert(e.target.value)}
           />
-          <button className="bg-yellow-400 px-3 rounded">+</button>
+          <button className="bg-yellow-400 px-3 rounded" onClick={addCert}>+</button>
         </div>
 
         <div className="flex flex-wrap gap-2 mt-2">
@@ -726,7 +799,7 @@ export default function EditarPerfil() {
             onChange={(e) => setNovoIdioma({ ...novoIdioma, nivel: e.target.value })}
           />
 
-          <button className="bg-yellow-400 px-3 rounded">+</button>
+          <button className="bg-yellow-400 px-3 rounded" onClick={addIdioma}>+</button>
         </div>
 
         <div className="flex flex-wrap gap-2 mt-2">
@@ -768,7 +841,7 @@ export default function EditarPerfil() {
             value={novaAreaInteresse}
             onChange={(e) => setNovaAreaInteresse(e.target.value)}
           />
-          <button className="bg-yellow-400 px-3 rounded">+</button>
+          <button className="bg-yellow-400 px-3 rounded" onClick={addAreaInteresse}>+</button>
         </div>
 
         <div className="flex flex-wrap gap-2 mt-2">
@@ -798,7 +871,6 @@ export default function EditarPerfil() {
       >
         Salvar Perfil
       </button>
-
     </div>
   );
 }
