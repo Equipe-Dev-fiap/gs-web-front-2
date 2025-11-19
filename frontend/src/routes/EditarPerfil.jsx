@@ -154,7 +154,7 @@ export default function EditarPerfil() {
           <div>
             {perfil.foto ? (
               <img
-                src={perfil.foto}
+                src={`${API_URL}/${perfil.foto}`   }
                 alt="foto"
                 className="w-32 h-32 rounded-lg object-cover border shadow
                 border-gray-300 dark:border-gray-700"

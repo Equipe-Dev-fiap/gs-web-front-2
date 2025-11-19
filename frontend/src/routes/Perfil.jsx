@@ -35,7 +35,7 @@ export default function Perfil() {
       {/* Header */}
       <div className="flex flex-wrap items-start gap-6">
         <img
-          src={perfil.foto || "/user-placeholder.png"}
+          src={perfil.foto ? `${API_URL}/${perfil.foto}` : "/user-placeholder.png"}
           alt="Foto de perfil"
           className="
             w-36 h-36 rounded-lg object-cover border shadow-md

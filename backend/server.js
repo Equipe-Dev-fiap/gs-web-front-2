@@ -7,6 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Caminhos dos JSONs
 const usuariosPath = path.join(__dirname, "data/usuario.json");
@@ -69,7 +70,6 @@ app.post("/register", (req, res) => {
 
   const usuarios = JSON.parse(fs.readFileSync(usuariosPath, "utf8"));
   const profissionais = JSON.parse(fs.readFileSync(profissionaisPath, "utf8"));
-
   const existe = usuarios.find((u) => u.email === email);
   if (existe) {
     return res.status(400).json({ message: "Email já cadastrado" });
@@ -146,9 +146,36 @@ app.put("/profissionais/:id", (req, res) => {
     return res.status(404).json({ message: "Perfil não encontrado" });
   }
 
+  const image = req.body.foto;
+  const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+
+  // Decodifica a string Base64 em bytes
+  const buffer = Buffer.from(base64Data, "base64");
+
+  // Gera um nome de arquivo (exemplo simples)
+  const fileName = `${id}.jpg`;
+  const filePath = path.join(__dirname, "../public", fileName);
+
+console.log("Salvando imagem em:", filePath);   
+
+fs.writeFile(filePath, buffer, (err) => {
+    if (err) {
+      console.error("Erro ao salvar imagem:", err);
+      return res.status(500).json({ error: "Erro ao salvar imagem" });
+    }
+
+    res.json({
+      message: "Imagem salva com sucesso!",
+      fileName,
+      filePath,
+    });
+  });
+  
+  let profissional = req.body;
+  profissional.foto = fileName; // Remove a foto do objeto para evitar sobrescrever
   lista[indice] = {
     ...lista[indice],
-    ...req.body,
+    ...profissional,
     id: lista[indice].id,
     email: lista[indice].email,
   };

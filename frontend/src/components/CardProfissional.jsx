@@ -82,7 +82,7 @@ export default function CardProfissional({ item, onOpen }) {
       <div className="flex items-center gap-4">
         {item.foto ? (
           <img
-            src={item.foto}
+            src={item.foto ? `${API_URL}/${item.foto}` : "/user-placeholder.png"}
             alt={item.nome}
             className="
               w-16 h-16 rounded-lg object-cover 

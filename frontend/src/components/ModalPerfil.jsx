@@ -3,6 +3,7 @@ export default function ModalPerfil({ item, onClose }) {
 
   const emailLogado = localStorage.getItem("usuarioEmail");
   const isMeuPerfil = emailLogado && item.email === emailLogado;
+  const API_URL = "http://localhost:5001";
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
@@ -49,7 +50,7 @@ export default function ModalPerfil({ item, onClose }) {
         {/* FOTO + RESUMO */}
         <div className="grid md:grid-cols-3 gap-6">
           <img
-            src={item.foto || "https://via.placeholder.com/180"}
+            src={item.foto ? `${API_URL}/${item.foto}` : "https://via.placeholder.com/180"}
             alt="Foto"
             className="
               w-full rounded-xl object-cover 
