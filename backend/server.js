@@ -23,15 +23,9 @@ const salvarProfissionais = (dados) =>
 
 const lerMensagens = () => {
   try {
-    if (!fs.existsSync(mensagensPath)) {
-      // se não existir ainda, começa com []
-      return [];
-    }
+    if (!fs.existsSync(mensagensPath)) return [];
     const conteudo = fs.readFileSync(mensagensPath, "utf8");
-    if (!conteudo.trim()) {
-      // arquivo vazio
-      return [];
-    }
+    if (!conteudo.trim()) return [];
     return JSON.parse(conteudo);
   } catch (e) {
     console.error("Erro ao ler mensagem.json:", e);
@@ -70,17 +64,16 @@ app.post("/register", (req, res) => {
 
   const usuarios = JSON.parse(fs.readFileSync(usuariosPath, "utf8"));
   const profissionais = JSON.parse(fs.readFileSync(profissionaisPath, "utf8"));
+
   const existe = usuarios.find((u) => u.email === email);
   if (existe) {
     return res.status(400).json({ message: "Email já cadastrado" });
   }
 
-  // Criar novo user
   const novoUser = { nome, email, senha };
   usuarios.push(novoUser);
   fs.writeFileSync(usuariosPath, JSON.stringify(usuarios, null, 2));
 
-  // Criar perfil vazio AUTOMATICAMENTE
   const novoPerfil = {
     id: profissionais.length + 1,
     email,
@@ -137,6 +130,7 @@ app.post("/profissionais", (req, res) => {
 });
 
 // ============================== ATUALIZAR PERFIL ==============================
+// 🔥 ROTA COMPLETAMENTE CORRIGIDA 🔥
 app.put("/profissionais/:id", (req, res) => {
   const id = Number(req.params.id);
   const lista = lerProfissionais();
@@ -146,42 +140,49 @@ app.put("/profissionais/:id", (req, res) => {
     return res.status(404).json({ message: "Perfil não encontrado" });
   }
 
-  const image = req.body.foto;
-  const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+  const profissionalAtual = lista[indice];
+  const dados = req.body;
 
-  // Decodifica a string Base64 em bytes
-  const buffer = Buffer.from(base64Data, "base64");
+  let fileName = profissionalAtual.foto;
 
-  // Gera um nome de arquivo (exemplo simples)
-  const fileName = `${id}.jpg`;
-  const filePath = path.join(__dirname, "../public", fileName);
+  // ==========================================
+  // 🔹 SALVAR FOTO (SE EXISTIR BASE64)
+  // ==========================================
+  if (dados.foto && dados.foto.startsWith("data:image")) {
+    try {
+      const base64Data = dados.foto.replace(/^data:image\/\w+;base64,/, "");
+      const buffer = Buffer.from(base64Data, "base64");
 
-console.log("Salvando imagem em:", filePath);   
+      fileName = `${id}.jpg`;
+      const filePath = path.join(__dirname, "../public", fileName);
 
-fs.writeFile(filePath, buffer, (err) => {
-    if (err) {
+      fs.writeFileSync(filePath, buffer);
+      dados.foto = fileName;
+    } catch (err) {
       console.error("Erro ao salvar imagem:", err);
       return res.status(500).json({ error: "Erro ao salvar imagem" });
     }
+  } else {
+    delete dados.foto; // mantém foto atual
+  }
 
-    res.json({
-      message: "Imagem salva com sucesso!",
-      fileName,
-      filePath,
-    });
-  });
-  
-  let profissional = req.body;
-  profissional.foto = fileName; // Remove a foto do objeto para evitar sobrescrever
+  // ==========================================
+  // 🔹 ATUALIZA PERFIL
+  // ==========================================
   lista[indice] = {
-    ...lista[indice],
-    ...profissional,
-    id: lista[indice].id,
-    email: lista[indice].email,
+    ...profissionalAtual,
+    ...dados,
+    id: profissionalAtual.id,
+    email: profissionalAtual.email,
+    foto: fileName,
   };
 
   salvarProfissionais(lista);
-  res.json(lista[indice]);
+
+  return res.json({
+    message: "Perfil atualizado com sucesso!",
+    perfil: lista[indice]
+  });
 });
 
 // ============================== LISTAR ÁREAS ==============================
@@ -209,8 +210,7 @@ app.post("/profissionais/:id/recomendar", (req, res) => {
 
   const perfil = lista[indice];
 
-  // Não deixa recomendar o próprio perfil
-  if (perfil.email && perfil.email.toLowerCase() === recomendadorEmail.toLowerCase()) {
+  if (perfil.email.toLowerCase() === recomendadorEmail.toLowerCase()) {
     return res.status(400).json({ message: "Você não pode recomendar o próprio perfil." });
   }
 
@@ -239,7 +239,7 @@ app.post("/profissionais/:id/recomendar", (req, res) => {
 // 🟦 SISTEMA DE CHAT — mensagem.json
 // ============================================================================
 
-// ➤ Enviar mensagem (cria conversa automaticamente)
+// ➤ Enviar mensagem
 app.post("/mensagens", (req, res) => {
   const { remetente, destinatario, texto } = req.body;
 
@@ -278,7 +278,7 @@ app.get("/mensagens/conversa", (req, res) => {
   res.json(conversa);
 });
 
-// ➤ Listar conversas que um usuário participou (para Inbox)
+// ➤ Listar conversas que participou (Inbox)
 app.get("/mensagens/inbox/:email", (req, res) => {
   const email = req.params.email;
   const mensagens = lerMensagens();
